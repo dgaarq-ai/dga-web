@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HOME SCORE® PRO — Precompra | DGA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../../img/logo-dga.png">
+<link rel="stylesheet" href="../style.css" />
+<style>
+  body{font-family:var(--body-font,"Hanken Grotesk",sans-serif)}
+  .offer-wrap{max-width:760px;margin:0 auto;padding:60px 24px}
+  .offer-wrap h1{font-family:var(--display-font,serif);font-weight:600;font-size:34px}
+  .offer-price{display:flex;align-items:baseline;gap:10px;margin:18px 0 6px}
+  .offer-price strong{font-size:48px;color:var(--navy);font-family:var(--mono-font,monospace)}
+  .offer-price span{color:var(--muted);font-size:14px}
+  .offer-list{list-style:none;margin:24px 0;padding:0;display:flex;flex-direction:column;gap:14px}
+  .offer-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--text)}
+  .offer-list li b{color:var(--navy)}
+  .offer-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0}
+  .offer-compare div{border:1px solid var(--line);border-radius:16px;padding:18px}
+  .offer-compare .pro{border-color:var(--navy);background:#f6f5f3}
+  .offer-compare h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.04em;font-family:var(--mono-font,monospace)}
+  .offer-compare ul{margin:0;padding-left:18px;font-size:13px;color:var(--muted);line-height:1.6}
+  .offer-next{border:1.5px dashed var(--navy);border-radius:16px;padding:18px 20px;margin:22px 0;background:#f6f5f3}
+  .offer-next strong{display:block;margin-bottom:6px;color:var(--navy)}
+  .offer-note{color:var(--muted);font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="offer-wrap">
+  <p><a href="../index.html">← Volver a HOME SCORE®</a></p>
+  <h1>HOME SCORE® PRO</h1>
+  <p style="color:var(--muted)">Precio promocional de lanzamiento.</p>
+  <div class="offer-price"><strong>US$ 10</strong><span>pago único · equivalente en pesos al momento del pago</span></div>
+
+  <div class="offer-compare">
+    <div>
+      <h3>FREE</h3>
+      <ul>
+        <li>4 preguntas por rubro</li>
+        <li>Alternativas básicas</li>
+        <li>Panorama general</li>
+      </ul>
+    </div>
+    <div class="pro">
+      <h3>PRO</h3>
+      <ul>
+        <li>7 preguntas por rubro (+18 en total)</li>
+        <li>Alternativas más específicas y técnicas</li>
+        <li>Panorama amplio y concreto para decidir</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="offer-next">
+    <strong>Después de tu informe PRO</strong>
+    Si el resultado lo justifica, el propio informe te va a ofrecer solicitar la visita profesional in situ de DGA — con presupuesto de reparaciones y validación técnica en el lugar. Eso se cotiza aparte, según la propiedad.
+  </div>
+
+  <button class="primary" style="width:100%;padding:16px" onclick="location.href='../../contacto.html?motivo=HomeScore+PRO+promo+US%2410'">Comprar PRO — US$10</button>
+  <p class="offer-note">El botón de pago directo se activa apenas se configure el link de Mercado Pago. Por ahora te contactamos para coordinar el pago y te mandamos el código de activación.</p>
+</div>
+</body>
+</html>

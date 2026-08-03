@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HOME SCORE® Flipping | DGA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../../img/logo-dga.png">
+<link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="flipping.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="modules">
+    <div class="brand">
+      <img class="logo-img" src="../../img/logo-dga-white.png" alt="DGA">
+      <div><strong>HOME SCORE®</strong><span>Modo Flipping</span></div>
+    </div>
+    <div id="moduleList"></div>
+    <button class="outline" id="compareBtn" style="display:none" onclick="toggleCompare()">📊 Mis operaciones (0)</button>
+    <a class="outline" href="../index.html" style="text-align:center;text-decoration:none;display:block">← Volver a Precompra</a>
+    <button class="outline" id="reset">Reiniciar cálculo</button>
+  </aside>
+
+  <main class="work">
+    <header>
+      <div>
+        <p>DGA METHOD® · Inversión con reforma y reventa</p>
+        <h1 id="title">Datos de la operación</h1>
+      </div>
+      <div class="topScore">
+        <span>MARGEN</span>
+        <strong id="topMargen">—</strong>
+      </div>
+    </header>
+
+    <section class="workspace-card" id="content"></section>
+
+    <footer>
+      <button id="prev">← Anterior</button>
+      <button id="next">Siguiente →</button>
+    </footer>
+  </main>
+
+  <aside class="decision">
+    <div class="decision-card heroScore">
+      <span>MARGEN BRUTO</span>
+      <strong id="margenBruto">$0</strong>
+      <em id="margenLabel">Sin datos</em>
+      <div class="scoreBar"><i id="scoreBar"></i></div>
+    </div>
+
+    <div class="decision-card">
+      <h3>Rentabilidad</h3>
+      <div class="kpi-row"><span>% sobre inversión</span><strong id="margenPct">0%</strong></div>
+      <div class="kpi-row"><span>Retorno anualizado aprox.</span><strong id="retornoAnual">0%</strong></div>
+      <div class="kpi-row"><span>Inversión total</span><strong id="inversionTotal">$0</strong></div>
+    </div>
+
+    <div class="decision-card">
+      <h3>Semáforo de viabilidad</h3>
+      <div class="semaforo" id="semaforo">
+        <span class="luz" data-luz="rojo"></span>
+        <span class="luz" data-luz="amarillo"></span>
+        <span class="luz" data-luz="verde"></span>
+      </div>
+      <p id="semaforoTexto">Completá los datos para evaluar.</p>
+    </div>
+
+    <div class="decision-card">
+      <h3>Decision Center®</h3>
+      <p id="recommendation">Completá la operación para obtener una orientación preliminar.</p>
+    </div>
+
+    <div class="decision-card pro-teaser" id="pro-teaser-block">
+      <h3>DGA FLIPPING PRO</h3>
+      <p>Presupuesto de reforma con precios reales de mercado y checklist de riesgo ampliado (7 categorías de debida diligencia en vez de 3). US$10, autoservicio.</p>
+      <button class="primary" style="width:100%" onclick="location.href='pro/index.html'">Desbloquear PRO →</button>
+      <div class="pro-redeem">
+        <input id="proCodeInput" placeholder="¿Ya tenés tu código? Ingresalo aquí">
+        <button class="outline" onclick="activarPro()">Activar</button>
+        <small id="proCodeMsg"></small>
+      </div>
+    </div>
+
+    <div class="decision-card pro-active-badge" id="pro-active-badge" style="display:none">
+      <h3>✓ DGA FLIPPING PRO activo</h3>
+      <p>Tenés desbloqueado el checklist de riesgo completo y quedará listo para precios reales apenas carguemos la Base de Precios.</p>
+    </div>
+
+    <button class="primary" id="pdf">Descargar informe PDF</button>
+  </aside>
+</div>
+
+<section id="printReport" class="print-report">
+  <div class="report-cover">
+    <div class="report-brand">
+      <div class="report-logo"><img src="../../img/logo-dga.png" alt="DGA"></div>
+      <div>
+        <h1>HOME SCORE® Flipping</h1>
+        <p>DGA Method® — Evaluación de inversión con reforma y reventa</p>
+      </div>
+    </div>
+    <div class="report-title">
+      <p>Informe preliminar</p>
+      <h2 id="pdfDireccion">Dirección del inmueble</h2>
+    </div>
+    <div class="report-meta" id="pdfMeta"></div>
+    <p class="report-claim">Invertí con el número, no con la intuición.</p>
+  </div>
+
+  <div class="report-page">
+    <div class="report-page-header">
+      <div class="report-logo small"><img src="../../img/logo-dga.png" alt="DGA"></div>
+      <div><strong>HOME SCORE® Flipping</strong><span>Resultado de la evaluación</span></div>
+    </div>
+    <h2>Resumen económico</h2>
+    <div class="report-summary">
+      <div><span>ARV — Valor post-reforma</span><strong id="pdfArv">$0</strong></div>
+      <div><span>Inversión total</span><strong id="pdfInversion">$0</strong></div>
+      <div><span>Margen bruto</span><strong id="pdfMargen">$0</strong><em id="pdfMargenPct">0%</em></div>
+      <div><span>Retorno anualizado aprox.</span><strong id="pdfRetorno">0%</strong></div>
+    </div>
+
+    <h2>Detalle de reforma por rubro</h2>
+    <div class="pdf-areas" id="pdfRubros"></div>
+
+    <h2>Costos de portación y transacción</h2>
+    <div class="pdf-areas" id="pdfCostos"></div>
+
+    <div class="pdf-recommendations">
+      <strong>Decision Center® — Recomendación</strong>
+      <p id="pdfRecomendacion"></p>
+    </div>
+
+    <div id="pdfPhotos"></div>
+
+    <div class="pro-compare">
+      <strong>HOME SCORE® PRO — Flipping</strong>
+      <p>Este informe usa valores de referencia cargados por el usuario. La versión PRO reemplaza esos valores por precios reales de mercado (Base de Precios DGA), valida el ARV con comparables verificados en sitio, y entrega un memo de inversión con formato para presentar a un socio o banco.</p>
+    </div>
+
+    <div class="legal-box">
+      Este informe es una orientación preliminar basada en los datos ingresados por el usuario y valores de referencia editables. No constituye tasación profesional, informe de dominio, ni sustituye la inspección técnica de un profesional matriculado antes de concretar la operación. DGA — Dirección, Gestión y Administración de Proyectos.
+    </div>
+    <div class="report-footer">DGA · dgaproyectos.com.ar · info@dgaproyectos.com.ar</div>
+  </div>
+</section>
+
+<script src="flipping.js"></script>
+</body>
+</html>

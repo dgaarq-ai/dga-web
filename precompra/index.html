@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HOME SCORE® Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../img/logo-dga.png">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="modules">
+    <div class="brand">
+      <img class="logo-img" src="../img/logo-dga-white.png" alt="DGA">
+      <div><strong>HOME SCORE®</strong><span>Edition FREE</span></div>
+    </div>
+    <div id="moduleList"></div>
+    <button class="outline" id="compareBtn" style="display:none" onclick="toggleCompare()">📊 Mis propiedades (0)</button>
+    <a class="outline" href="flipping/index.html" style="text-align:center;text-decoration:none;display:block">Modo Flipping →</a>
+    <button class="outline" id="reset">Reiniciar evaluación</button>
+  </aside>
+
+  <main class="work">
+    <header>
+      <div>
+        <p>DGA METHOD® · Evaluación Precompra</p>
+        <h1 id="title">Datos Generales</h1>
+      </div>
+      <div class="topScore">
+        <span>HOME SCORE®</span>
+        <strong id="topScore">0</strong>
+      </div>
+    </header>
+
+    <section class="workspace-card" id="content"></section>
+
+    <footer>
+      <button id="prev">← Anterior</button>
+      <button id="next">Siguiente →</button>
+    </footer>
+  </main>
+
+  <aside class="decision">
+    <div class="decision-card heroScore">
+      <span>HOME SCORE®</span>
+      <strong id="score">0</strong>
+      <em id="scoreLabel">Sin datos</em>
+      <div class="scoreBar"><i id="scoreBar"></i></div>
+    </div>
+
+    <div class="decision-card">
+      <h3>Trust Index®</h3>
+      <strong id="trust">0%</strong>
+      <p>Confiabilidad según avance y datos cargados.</p>
+    </div>
+
+    <div class="decision-card">
+      <h3>Resumen por áreas</h3>
+      <canvas id="radar" width="260" height="260"></canvas>
+      <div class="radar-legend">
+        <span><b></b> Documentación</span>
+        <span><b></b> Estructura</span>
+        <span><b></b> Humedades</span>
+        <span><b></b> Instalaciones</span>
+        <span><b></b> Terminaciones</span>
+        <span><b></b> Entorno</span>
+      </div>
+    </div>
+
+    <div class="decision-card">
+      <h3>Decision Center®</h3>
+      <p id="recommendation">Completá la evaluación para obtener una orientación preliminar.</p>
+    </div>
+
+    <div class="decision-card pro-teaser" id="pro-teaser-block">
+      <h3>HOME SCORE® PRO</h3>
+      <p>La misma evaluación, con muchas más preguntas y alternativas por rubro — un panorama mucho más concreto para decidir. US$10, autoservicio, al instante.</p>
+      <button class="primary" style="width:100%" onclick="location.href='pro/index.html'">Desbloquear PRO →</button>
+      <div class="pro-redeem">
+        <input id="proCodeInput" placeholder="¿Ya tenés tu código? Ingresalo aquí">
+        <button class="outline" onclick="activarPro()">Activar</button>
+        <small id="proCodeMsg"></small>
+      </div>
+    </div>
+
+    <div class="decision-card pro-active-badge" id="pro-active-badge" style="display:none">
+      <h3>✓ HOME SCORE® PRO activo</h3>
+      <p>Tenés desbloqueadas todas las preguntas ampliadas. Al terminar el informe, vas a poder solicitar la visita profesional in situ de DGA.</p>
+    </div>
+
+    <button class="primary" id="pdf">Descargar informe PDF</button>
+  </aside>
+</div>
+
+<section id="printReport" class="print-report">
+  <div class="report-cover">
+    <div class="report-brand">
+      <div class="report-logo"><img src="../img/logo-dga.png" alt="DGA"></div>
+      <div>
+        <h1>DGA METHOD®</h1>
+        <p>HOME SCORE® · Edition FREE</p>
+      </div>
+    </div>
+    <div class="report-title">
+      <p>Método DGA de Evaluación Precompra</p>
+      <h2>Informe Preliminar</h2>
+    </div>
+    <div class="report-meta">
+      <p><strong>Usuario:</strong> <span id="pdfUser">Usuario pendiente</span></p>
+      <p><strong>Inmueble:</strong> <span id="pdfAddress">Dirección pendiente</span></p>
+      <p><strong>Fecha:</strong> <span id="pdfDate">Fecha pendiente</span></p>
+    </div>
+    <div class="report-claim">Toda decisión importante merece una evaluación estructurada.</div>
+  </div>
+
+  <div class="report-page">
+    <div class="report-page-header">
+      <div class="report-logo small"><img src="../img/logo-dga.png" alt="DGA"></div>
+      <div>
+        <strong>DGA METHOD®</strong>
+        <span>HOME SCORE® · Informe preliminar</span>
+      </div>
+    </div>
+
+    <h2>Resumen Ejecutivo</h2>
+    <div class="report-summary">
+      <div>
+        <span>HOME SCORE®</span>
+        <strong id="pdfScore">0</strong>
+        <em id="pdfScoreLabel">Sin datos</em>
+      </div>
+      <div>
+        <span>Trust Index®</span>
+        <strong id="pdfTrust">0%</strong>
+        <em>Confiabilidad de la información</em>
+      </div>
+    </div>
+
+    <h2>Resultado por Áreas</h2>
+    <div id="pdfAreas" class="pdf-areas"></div>
+
+    <h2>Decision Center® — Recomendaciones</h2>
+    <ul id="pdfRecommendations" class="pdf-recommendations"></ul>
+
+    <div id="pdfPhotos"></div>
+
+    <div class="pro-compare">
+      <strong>HOME SCORE® PRO</strong>
+      <p>Este informe se generó con observaciones autodeclaradas por el usuario. La versión PRO agrega inspección presencial de un profesional DGA®, registro fotográfico técnico, estimación de costos de reparación y un informe firmado con validez para presentar en la negociación de compra.</p>
+    </div>
+
+    <h2>Responsabilidad y Alcance</h2>
+    <div class="legal-box">
+      <p>HOME SCORE® Edition FREE es una herramienta de organización y apoyo para la toma de decisiones. Toda la información incluida en este informe proviene exclusivamente de los datos ingresados por el usuario y de observaciones visuales preliminares realizadas durante la evaluación.</p>
+      <p><strong>DGA METHOD®, DGA ARQ y Daniel O. Garayo no inspeccionan el inmueble, no verifican la autenticidad de documentos, no certifican instalaciones, no realizan tasaciones ni emiten dictámenes técnicos mediante esta edición FREE.</strong></p>
+      <p>La calidad del resultado depende directamente de la información suministrada. Todo dato faltante, incompleto o erróneo provisto por el usuario, propietario, inmobiliaria o terceros ajenos a DGA no será responsabilidad de DGA METHOD®, DGA ARQ ni Daniel O. Garayo.</p>
+    </div>
+
+    <footer class="report-footer">DGA METHOD® · HOME SCORE® Edition FREE · Evaluación Precompra</footer>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

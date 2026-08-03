@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>¡Gracias! Tu código PRO está listo | DGA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../../img/logo-dga.png">
+<link rel="stylesheet" href="../style.css" />
+<style>
+  .thanks-wrap{max-width:640px;margin:0 auto;padding:70px 24px;text-align:center}
+  .thanks-wrap{font-family:var(--body-font,"Hanken Grotesk",sans-serif)}
+  .thanks-wrap h1{font-size:30px;font-family:var(--display-font,serif);font-weight:600}
+  .code-box{background:#1B1F24;color:#fff;border-radius:14px;padding:20px;margin:24px 0;font-family:var(--mono-font,monospace);font-size:20px;letter-spacing:.1em}
+  .thanks-actions{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="thanks-wrap">
+  <h1>¡Gracias por tu compra!</h1>
+  <p>Este es tu código de activación de HOME SCORE® PRO. Volvé a la herramienta, pegalo en el casillero de la barra derecha y hacé clic en "Activar".</p>
+  <div class="code-box" id="codeBox">Verificando tu pago…</div>
+  <p style="color:var(--muted);font-size:13px">Guardá este código — lo necesitás cada vez que abrís la herramienta desde un navegador nuevo.</p>
+  <div class="thanks-actions">
+    <button class="primary" onclick="location.href='../index.html'">Volver a HOME SCORE® y activar</button>
+  </div>
+</div>
+<script>
+(async function(){
+  const box = document.getElementById('codeBox');
+  const params = new URLSearchParams(window.location.search);
+  const paymentId = params.get('payment_id') || params.get('collection_id');
+  if (!paymentId) { box.textContent = 'No pudimos verificar tu pago. Escribinos a info@dgaproyectos.com.ar con tu comprobante.'; box.style.fontSize='14px'; return; }
+  try {
+    const res = await fetch('/.netlify/functions/mp-confirm?payment_id=' + encodeURIComponent(paymentId) + '&product=homescore-pro');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.code) { box.textContent = data.code; return; }
+    }
+  } catch (e) { /* función no desplegada todavía */ }
+  box.textContent = 'No pudimos generar tu código automáticamente. Escribinos a info@dgaproyectos.com.ar con tu comprobante de pago.';
+  box.style.fontSize='14px';
+})();
+</script>
+</body>
+</html>
