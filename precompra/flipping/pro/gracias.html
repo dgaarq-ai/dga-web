@@ -19,11 +19,30 @@
 <body>
 <div class="thanks-wrap">
   <h1>¡Gracias por tu compra!</h1>
-  <p>Tu HOME SCORE® Flipping PRO ya está activo. Volvé a la herramienta y vas a ver los precios reales cargados en el presupuesto de reforma.</p>
+  <p>Tu HOME SCORE® Flipping PRO ya está activo. Volvé a la herramienta y vas a ver el checklist de riesgo completo desbloqueado.</p>
   <p style="color:#7a8b99;font-size:14px">Tu acceso de cortesía a DGA LEDGER te llega por mail dentro de las próximas 24 horas.</p>
+  <div class="code-box" id="codeBox" style="background:#0d2b40;color:#fff;border-radius:14px;padding:20px;margin:24px 0;font-family:monospace;font-size:20px;letter-spacing:.1em">Verificando tu pago…</div>
+  <p style="color:var(--muted,#7a8b99);font-size:13px">Guardá este código — lo necesitás cada vez que abrís la herramienta desde un navegador nuevo.</p>
   <div class="thanks-actions">
-    <button class="primary" onclick="location.href='../index.html'">Volver a Flipping PRO</button>
+    <button class="primary" onclick="location.href='../index.html'">Volver a Flipping PRO y activar</button>
   </div>
 </div>
+<script>
+(async function(){
+  const box = document.getElementById('codeBox');
+  const params = new URLSearchParams(window.location.search);
+  const paymentId = params.get('payment_id') || params.get('collection_id');
+  if (!paymentId) { box.textContent = 'No pudimos verificar tu pago. Escribinos a info@dgaproyectos.com.ar con tu comprobante.'; box.style.fontSize='14px'; return; }
+  try {
+    const res = await fetch('/.netlify/functions/mp-confirm?payment_id=' + encodeURIComponent(paymentId) + '&product=flipping-pro');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.code) { box.textContent = data.code; return; }
+    }
+  } catch (e) { /* función no desplegada todavía */ }
+  box.textContent = 'No pudimos generar tu código automáticamente. Escribinos a info@dgaproyectos.com.ar con tu comprobante de pago.';
+  box.style.fontSize='14px';
+})();
+</script>
 </body>
 </html>

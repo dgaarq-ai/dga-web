@@ -484,27 +484,6 @@
   </div>
 </div>
 
-<!-- MODAL DESBLOQUEO PRO -->
-<div id="proModalOverlay" class="modal-overlay no-print" style="display:none;">
-  <div class="modal-box">
-    <button class="modal-close" id="btnCloseModal">✕</button>
-    <div class="eyebrow" style="margin-bottom:10px;">Acceso PRO</div>
-    <h3 style="font-family:'Cormorant Garamond';font-weight:600;font-size:23px;margin:0 0 6px;">Desbloqueá DGA Ledger PRO</h3>
-    <p style="color:var(--text-dim);font-size:12.5px;margin:0 0 18px;">Dejanos tus datos y te contactamos para activar el acceso completo: desglose por ítem, dashboard, cotización en PDF, obras ilimitadas y certificación mensual de avance.</p>
-    <form id="proForm">
-      <label>Nombre</label>
-      <input type="text" name="nombre" required style="margin-bottom:12px;">
-      <label>Email</label>
-      <input type="email" name="email" required style="margin-bottom:12px;">
-      <label>Empresa / estudio (opcional)</label>
-      <input type="text" name="empresa" style="margin-bottom:18px;">
-      <button type="submit" class="btn" style="width:100%;justify-content:center;" id="btnSubmitPro">Solicitar acceso PRO</button>
-      <p id="proFormMsg" style="font-size:11.5px;color:var(--text-faint);margin-top:10px;text-align:center;"></p>
-    </form>
-  </div>
-</div>
-
-
 <script>
 /* =========================================================
    BASE DE PRECIOS ESTIMADA — 19 rubros, ~140 ítems
@@ -732,61 +711,18 @@ function getGlobalFactor(){
 }
 
 /* =========================
-   FORMSPREE — ID a reemplazar por Daniel
+   FORMSPREE — ya no se usa para desbloquear PRO (ver sistema de código real)
    ========================= */
-const FORMSPREE_ID = 'mrengjjo'; // DGA Ledger - Leads PRO
 
 function openProModal(){
-  document.getElementById('proModalOverlay').style.display = 'flex';
+  location.href = 'pro/index.html';
 }
-function closeProModal(){
-  document.getElementById('proModalOverlay').style.display = 'none';
-}
-document.getElementById('btnCloseModal').addEventListener('click', closeProModal);
-document.getElementById('proModalOverlay').addEventListener('click', e=>{
-  if(e.target.id === 'proModalOverlay') closeProModal();
-});
 
 async function unlockPro(){
   tier = 'pro';
   try{ localStorage.setItem('ledger_proUnlocked', 'true'); }catch(e){}
   applyTierUI();
 }
-
-document.getElementById('proForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const form = e.target;
-  const btn = document.getElementById('btnSubmitPro');
-  const msg = document.getElementById('proFormMsg');
-
-  if(FORMSPREE_ID === 'TU_FORM_ID_AQUI'){
-    msg.textContent = 'Falta configurar el Form ID de Formspree — hablalo con Daniel.';
-    msg.style.color = 'var(--warn)';
-    return;
-  }
-
-  btn.disabled = true; btn.textContent = 'Enviando...';
-  try{
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-      method: 'POST',
-      headers: {'Accept':'application/json'},
-      body: new FormData(form)
-    });
-    if(res.ok){
-      msg.style.color = 'var(--good)';
-      msg.textContent = 'Listo. Acceso PRO activado — te contactamos para coordinar el pago.';
-      await unlockPro();
-      setTimeout(closeProModal, 1400);
-    } else {
-      msg.style.color = 'var(--bad)';
-      msg.textContent = 'No se pudo enviar. Probá de nuevo en un momento.';
-    }
-  }catch(err){
-    msg.style.color = 'var(--bad)';
-    msg.textContent = 'Error de conexión. Probá de nuevo.';
-  }
-  btn.disabled = false; btn.textContent = 'Solicitar acceso PRO';
-});
 
 /* =========================
    RENDER RUBROS

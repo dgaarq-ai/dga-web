@@ -269,27 +269,7 @@
   </div>
 </div>
 
-<!-- MODAL DESBLOQUEO -->
-<div id="modalOverlay" class="modal-overlay no-print" style="display:none;">
-  <div class="modal-box">
-    <button class="modal-close" id="btnCloseModal">✕</button>
-    <div class="eyebrow" style="margin-bottom:10px;">DGA Control</div>
-    <h3 style="font-family:'Cormorant Garamond';font-weight:600;font-size:23px;margin:0 0 6px;">Desbloqueá DGA Control</h3>
-    <p style="color:var(--text-dim);font-size:12.5px;margin:0 0 18px;">Dejanos tus datos y te contactamos para coordinar el pago: certificación mensual, tablero de control con desvíos y tareas de obra — sobre el presupuesto que ya armaste en Ledger.</p>
-    <form id="unlockForm">
-      <label>Nombre</label>
-      <input type="text" name="nombre" required style="margin-bottom:12px;">
-      <label>Email</label>
-      <input type="email" name="email" required style="margin-bottom:12px;">
-      <input type="hidden" name="_subject" value="Interés — DGA Control">
-      <button type="submit" class="btn" style="width:100%;justify-content:center;" id="btnSubmit">Solicitar acceso a DGA Control</button>
-      <p id="formMsg" style="font-size:11.5px;color:var(--text-faint);margin-top:10px;text-align:center;"></p>
-    </form>
-  </div>
-</div>
-
 <script>
-const FORMSPREE_ID = 'mrengjjo';
 let unlocked = false;
 let obraActual = null;
 let tasks = [];
@@ -567,12 +547,9 @@ function renderControlDashboard(){
   document.getElementById('controlEvolucion').innerHTML = certs.length ? `<table class="tasks"><thead><tr><th>Certificado</th><th>Fecha</th><th>Monto del período</th><th>Acumulado total</th></tr></thead><tbody>${certs.map(c=>`<tr><td>${c.titulo}</td><td>${c.fecha}</td><td class="mono">${fmt(c.totalPeriodo)}</td><td class="mono">${fmt(c.totalAcumulado)}</td></tr>`).join('')}</tbody></table>` : '<p style="color:var(--text-faint);font-size:12px;">Todavía no generaste ningún certificado.</p>';
 }
 
-/* ===== UNLOCK / MODAL ===== */
-function openModal(){ document.getElementById('modalOverlay').style.display='flex'; }
-function closeModal(){ document.getElementById('modalOverlay').style.display='none'; }
+/* ===== UNLOCK ===== */
+function openModal(){ location.href = 'pro/index.html'; }
 document.getElementById('btnOpenModal').addEventListener('click', openModal);
-document.getElementById('btnCloseModal').addEventListener('click', closeModal);
-document.getElementById('modalOverlay').addEventListener('click', e=>{ if(e.target.id==='modalOverlay') closeModal(); });
 
 function applyLockUI(){
   const badge = document.getElementById('tierBadge');
@@ -589,31 +566,12 @@ function applyLockUI(){
       box.classList.add('locked');
       if(!box.querySelector('.lock-cta')){
         const ov=document.createElement('div'); ov.className='lock-cta';
-        ov.innerHTML = `<div class="lock-box"><p>Función disponible en DGA Control</p><button class="btn-pro" onclick="document.getElementById('btnOpenModal').click()">Desbloquear</button></div>`;
+        ov.innerHTML = `<div class="lock-box"><p>Función disponible en DGA Control</p><button class="btn-pro" onclick="location.href='pro/index.html'">Desbloquear</button></div>`;
         box.appendChild(ov);
       }
     });
   }
 }
-
-document.getElementById('unlockForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const form = e.target;
-  const btn = document.getElementById('btnSubmit');
-  const msg = document.getElementById('formMsg');
-  btn.disabled = true; btn.textContent = 'Enviando...';
-  try{
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) });
-    if(res.ok){
-      msg.style.color='var(--good)'; msg.textContent='Listo. DGA Control activado — te contactamos para coordinar el pago.';
-      unlocked = true;
-      try{ localStorage.setItem('control_unlocked','true'); }catch(err){}
-      applyLockUI();
-      setTimeout(closeModal, 1400);
-    } else { msg.style.color='var(--bad)'; msg.textContent='No se pudo enviar. Probá de nuevo.'; }
-  }catch(err){ msg.style.color='var(--bad)'; msg.textContent='Error de conexión. Probá de nuevo.'; }
-  btn.disabled=false; btn.textContent='Solicitar acceso a DGA Control';
-});
 
 /* ===== INIT ===== */
 (function(){

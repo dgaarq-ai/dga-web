@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Gracias! Tu código está listo | DGA Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/png" href="../../img/logo-dga.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Hanken+Grotesk:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#14171C;--surface:#1B2028;--line:#2B323D;--accent:#B5532E;--text:#EDEEF0;--text-dim:#9AA3AF;--text-faint:#6B7280;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Hanken Grotesk',sans-serif;}
+  .wrap{max-width:520px;margin:0 auto;padding:70px 24px;text-align:center;}
+  h1{font-family:'Cormorant Garamond';font-weight:600;font-size:30px;}
+  .code-box{background:var(--surface);border:1px solid var(--accent);color:#fff;border-radius:12px;padding:20px;margin:24px 0;font-family:'JetBrains Mono';font-size:19px;letter-spacing:.08em;}
+  .btn{display:inline-block;background:var(--accent);color:#1B140A;border:none;padding:13px 22px;border-radius:8px;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk';font-size:14.5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>¡Gracias!</h1>
+  <p style="color:var(--text-dim)">Este es tu código de activación de DGA Control. Volvé a la herramienta, pegalo en el casillero y activá.</p>
+  <div class="code-box" id="codeBox">Verificando tu pago…</div>
+  <p style="color:var(--text-faint);font-size:12.5px">Guardá este código — lo necesitás cada vez que abrís la herramienta desde un navegador nuevo.</p>
+  <button class="btn" onclick="location.href='../index.html'">Volver a DGA Control y activar</button>
+</div>
+<script>
+(async function(){
+  const box = document.getElementById('codeBox');
+  const params = new URLSearchParams(window.location.search);
+  const paymentId = params.get('payment_id') || params.get('collection_id');
+  if (!paymentId) { box.textContent = 'No pudimos verificar tu pago. Escribinos a info@dgaproyectos.com.ar con tu comprobante.'; box.style.fontSize='14px'; return; }
+  try {
+    const res = await fetch('/.netlify/functions/mp-confirm?payment_id=' + encodeURIComponent(paymentId) + '&product=control');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.code) { box.textContent = data.code; return; }
+    }
+  } catch (e) { /* función no desplegada todavía */ }
+  box.textContent = 'No pudimos generar tu código automáticamente. Escribinos a info@dgaproyectos.com.ar con tu comprobante de pago.';
+  box.style.fontSize='14px';
+})();
+</script>
+</body>
+</html>
